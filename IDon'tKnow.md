@@ -5,6 +5,18 @@
 async function hello(){return "Hello";};//返回非Promise对象时，将使用Promise包裹返回值
 async function world(){return new Promise((resolve,reject)=>{resolve("World")})};//返回对象为Promise时不做处理
 ```
+# await
+`await`关键字使得async函数返回值从Promise变成PromiseResult
+```js
+async function hello() {
+    console.log(new Promise((resolve, reject) => {
+        resolve("world");
+    }));
+    console.log(await new Promise((resolve, reject) => {
+        resolve("world");
+    }));
+}
+```
 
 # 匿名函数
 函数会直接执行
@@ -66,6 +78,7 @@ async function decrypt(cipherText, key, cryptoKey) {
     );
     cryptoKey.then(async (e)=>{
         const e_1 = await encrypt("Hello world!", key, e);
+        console.log(e_1);
         const e_2 = await decrypt(e_1, key, e);
         console.log(e_2);
     });
@@ -163,20 +176,20 @@ xhr.send();
 - JSON结构的例子
     ```json
     {
-    "browsers": {
-        "firefox": {
-        "name": "Firefox",
-        "pref_url": "about:config",
-        "releases": {
-            "1": {
-            "release_date": "2004-11-09",
-            "status": "retired",
-            "engine": "Gecko",
-            "engine_version": "1.7"
+        "browsers": {
+            "firefox": {
+            "name": "Firefox",
+            "pref_url": "about:config",
+            "releases": {
+                "1": {
+                "release_date": "2004-11-09",
+                "status": "retired",
+                "engine": "Gecko",
+                "engine_version": "1.7"
+                }
+            }
             }
         }
-        }
-    }
     }
     ```
 - 静态方法[JSON.parse]
