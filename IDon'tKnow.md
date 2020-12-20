@@ -178,16 +178,16 @@ xhr.send();
     {
         "browsers": {
             "firefox": {
-            "name": "Firefox",
-            "pref_url": "about:config",
-            "releases": {
-                "1": {
-                "release_date": "2004-11-09",
-                "status": "retired",
-                "engine": "Gecko",
-                "engine_version": "1.7"
+                "name": "Firefox",
+                "pref_url": "about:config",
+                "releases": {
+                    "1": {
+                        "release_date": "2004-11-09",
+                        "status": "retired",
+                        "engine": "Gecko",
+                        "engine_version": "1.7"
+                    }
                 }
-            }
             }
         }
     }
@@ -213,6 +213,9 @@ xhr.send();
     });
     ```
 - 静态方法[JSON.stringify]
+    - `JSON.stringify(value[, replacer[, space]])`
+    - replacer可以是一个函数
     ```js
-    //JSON.stringify(value[, replacer[, space]])
+    //
     ```
+    - replacer可以是一个数组
