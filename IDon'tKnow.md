@@ -224,15 +224,58 @@ xhr.send();
 - -std=c++11 支持C++11标准
 - -std=gnu++11 支持C++11标准和GNU扩展特性
 
+# markdown中调整表格列宽
+```markdown
+|<div style="width:[指定宽度]">[文字内容]</div>|
+|-|
+|测试|
+```
+
 # 链路层以太帧结构
 - 以太网帧的整体大小为64~1518字节，附加7字节的前同步码，1字节的帧开始界定符，部分系统支持更大的帧，最大为9000字节。
-- 以太网帧结构
-    |字段|含义|
-    |-|-|
-    |前同步码|用来使接收端的适配器在接收 MAC 帧时能够迅速调整时钟频率，使它和发送端的频率相同。前同步码为 7 个字节，1 和 0 交替。
-    |帧开始定界符|帧的起始符，为 1 个字节。前 6 位 1 和 0 交替，最后的两个连续的 1 表示告诉接收端适配器：“帧信息要来了，准备接收”。
-    |目的地址|接收帧的网络适配器的物理地址（MAC 地址），为 6 个字节（48 比特）。作用是当网卡接收到一个数据帧时，首先会检查该帧的目的地址，是否与当前适配器的物理地址相同，如果相同，就会进一步处理；如果不同，则直接丢弃。
-    |源地址|发送帧的网络适配器的物理地址（MAC 地址），为 6 个字节（48 比特）。
-    |类型|上层协议的类型。由于上层协议众多，所以在处理数据的时候必须设置该字段，标识数据交付哪个协议处理。例如，字段为 0x0800 时，表示将数据交付给 IP 协议。
-    |数据|也称为效载荷，表示交付给上层的数据。以太网帧数据长度最小为 46 字节，最大为 1500 字节。如果不足 46 字节时，会填充到最小长度。最大值也叫最大传输单元（MTU）。在 Linux 中，使用 ifconfig 命令可以查看该值，通常为 1500。
-    |帧检验序列FCS|检测该帧是否出现差错，占 4 个字节（32 比特）。发送方计算帧的循环冗余码校验（CRC）值，把这个值写到帧里。接收方计算机重新计算 CRC，与 FCS 字段的值进行比较。如果两个值不相同，则表示传输过程中发生了数据丢失或改变。这时，就需要重新传输这一帧。
+- 以太网帧结构  
+    |<div style="width:90px">字段</div>|<div style="width:68px">长度(字节)</div>|含义|
+    |:-:|:-:|-|
+    |前同步码|7|用来使接收端的适配器在接收 MAC 帧时能够迅速调整时钟频率，使它和发送端的频率相同。前同步码为 7 个字节，1 和 0 交替。
+    |帧开始定界符|1|帧的起始符，为 1 个字节。前 6 位 1 和 0 交替，最后的两个连续的 1 表示告诉接收端适配器：“帧信息要来了，准备接收”。
+    |目的地址|6|接收帧的网络适配器的物理地址（MAC 地址），为 6 个字节（48 比特）。作用是当网卡接收到一个数据帧时，首先会检查该帧的目的地址，是否与当前适配器的物理地址相同，如果相同，就会进一步处理；如果不同，则直接丢弃。
+    |源地址|6|发送帧的网络适配器的物理地址（MAC 地址），为 6 个字节（48 比特）。
+    |类型|2|上层协议的类型。由于上层协议众多，所以在处理数据的时候必须设置该字段，标识数据交付哪个协议处理。例如，字段为 0x0800 时，表示将数据交付给 IP 协议。
+    |数据|46|也称为效载荷，表示交付给上层的数据。以太网帧数据长度最小为 46 字节，最大为 1500 字节。如果不足 46 字节时，会填充到最小长度。最大值也叫最大传输单元（MTU）。在 Linux 中，使用 ifconfig 命令可以查看该值，通常为 1500。
+    |帧检验序列 FCS|4|检测该帧是否出现差错，占 4 个字节（32 比特）。发送方计算帧的循环冗余码校验（CRC）值，把这个值写到帧里。接收方计算机重新计算 CRC，与 FCS 字段的值进行比较。如果两个值不相同，则表示传输过程中发生了数据丢失或改变。这时，就需要重新传输这一帧。
+
+# 使用sock_raw捕获以太帧时存在长度为54字节或者60字节的帧
+- 以太帧的数据长度最小为46字节，若小于46字节，则填充至46字节
+- 填充至46字节的操作由设备驱动程序完成
+- 帧捕获时会去除4字节的FCS，因而存在60字节的帧
+- [数据长度不足时填充的0并不被视为IP报文的一部分，IP报头中不会记录这个长度，而获取数据帧长度时需要依赖于IP报文中对于数据报长度的描述，使得实际上捕获到的数据长度小于46字节](https://stackoverflow.com/questions/5543326/what-is-the-total-length-of-pure-tcp-ack-sent-over-ethernet)
+    >Found Answer: The minimum length of the data field of a packet sent over an Ethernet is 46 octets. If necessary, the data field should be padded (with octets of zero) to meet the Ethernet minimum frame size. This padding is not part of the IP packet and is not included in the total length field of the IP header. http://www.ietf.org/rfc/rfc0894.txt  
+- *有线网络的帧和无限网络的帧遵循的协议不同，格式也有所不同*
+
+# C语言中的 __attribute__
+__attribute__可以设置函数属性（Function Attribute）、变量属性（Variable Attribute）和类型属性（Type Attribute），[看看这个](https://www.jianshu.com/p/dda61084f9b5)
+
+# 使用struct结构体时需要考虑对齐的问题
+```c
+struct EthIPHeader{
+    unsigned char dst_mac[6];
+    unsigned char src_mac[6];
+    __be16 eth_type;
+    unsigned char ver_ihl;
+    unsigned char tos;   //服务类型
+    unsigned short tot_len; //总长度
+    unsigned short id;    //标志
+    unsigned short frag_off; //分片偏移
+    unsigned char ttl;   //生存时间
+    unsigned char protocol; //协议
+    unsigned short chk_sum; //检验和
+    unsigned char sa[4];//源IP地址
+    //struct in_addr src_addr; //由于字节对齐的问题导致此处无法正确取到地址，需使用char代替
+    unsigned char da[4];//目的IP地址
+    //struct in_addr dst_addr;
+};
+union{
+    unsigned char sa[4];//源IP地址
+    struct in_addr src_addr; //使用union也无法解决对齐问题
+};
+```
