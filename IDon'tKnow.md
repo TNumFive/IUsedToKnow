@@ -279,3 +279,7 @@ union{
     struct in_addr src_addr; //使用union也无法解决对齐问题
 };
 ```
+
+# C语言下printf的控制字符
+- \r需要配合\n实现\n的功能，简而言之就是，没用。。。。
+- 需要使用类似Unicode形式的控制字符
