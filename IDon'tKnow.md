@@ -252,6 +252,21 @@ xhr.send();
     >Found Answer: The minimum length of the data field of a packet sent over an Ethernet is 46 octets. If necessary, the data field should be padded (with octets of zero) to meet the Ethernet minimum frame size. This padding is not part of the IP packet and is not included in the total length field of the IP header. http://www.ietf.org/rfc/rfc0894.txt  
 - *有线网络的帧和无限网络的帧遵循的协议不同，格式也有所不同*
 
+# 当前以太帧中IP报文的数据长度
+- MTU最大传输单元包含IP报头的长度和当前帧中IP报文的数据长度
+- ihl表示报头长度，tot_len表示报文数据长度
+- 同一个IP报文的报头长度一定
+- 片偏移以8个字节为单位，每个分片的长度一定是8字节的整数倍
+    分片长度=floor((MTU-ihl)/8)*8
+- MF=1表示后面还有分片，DF=1表示禁止分片
+```C
+if(MF==0||DF==1){//后面没有分片或者不允许分片
+    dataLen=tot_len-floor(tot_len/分片长度)*分片长度
+}else{//后面还有分片
+    dataLen=分片长度
+}
+```
+
 # C语言中的 __attribute__
 __attribute__可以设置函数属性（Function Attribute）、变量属性（Variable Attribute）和类型属性（Type Attribute），[看看这个](https://www.jianshu.com/p/dda61084f9b5)
 
@@ -283,3 +298,27 @@ union{
 # C语言下printf的控制字符
 - \r需要配合\n实现\n的功能，简而言之就是，没用。。。。
 - 需要使用类似Unicode形式的控制字符
+
+# C语言运算符优先级
+>值得注意的是在有位运算参与时，位运算的优先级较低需使用"("，")"提升优先级  
+0x5200 - 0x45 & 0x0f * 0x4 = 0x38 = 56(d)  
+0x5200 - (0x45 & 0x0f) * 0x4 = 0x51ec = 20972(d)
+
+运算符等级从高到低
+|类别|运算符|结合性
+|-|-|-|
+|后缀|() [] -> . ++ -- |从左到右 
+|一元|+ - ! ~ ++ - - (type)* & sizeof|从右到左 
+|乘除|* / %|从左到右 
+|加减|+ -|从左到右 
+|移位|<< >>|从左到右 
+|关系|< <= > >=|从左到右 
+|相等|== !=|从左到右 
+|位与 AND|&|从左到右 
+|位异或 XOR|^|从左到右 
+|位或 OR|\||从左到右 
+|逻辑与 AND|&&|从左到右 
+|逻辑或 OR|\|\||从左到右 
+|条件|?:|从右到左 
+|赋值|= += -= *= /= %= >>= <<= &= ^= \|=|从右到左 
+|逗号|,|从左到右 
