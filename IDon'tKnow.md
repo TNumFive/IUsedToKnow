@@ -342,3 +342,42 @@ union{
 # C/C++默认参数
 - C语言不支持默认参数，通过宏定义来实现
 - C++支持默认参数，但是，默认参数只能出现在声明或者定义，不能两边都出现，会编译报错
+
+# linux [capabilities]
+[capabilities]:(https://man7.org/linux/man-pages/man7/capabilities.7.html)
+[sparkdev's blog]:(https://www.cnblogs.com/sparkdev/p/11417781.html)
+    
+    For the purpose of performing permission checks, traditional UNIX implementations distinguish two categories of processes: privileged processes (whose effective user ID is 0, referred to as superuser or root), and unprivileged processes (whose effective UID is nonzero).  Privileged processes bypass all kernel permission checks, while unprivileged processes are subject to full permission checking based on the process's credentials (usually: effective UID, effective GID, and supplementary group list).  
+
+    Starting with kernel 2.2, Linux divides the privileges traditionally associated with superuser into distinct units, known as capabilities, which can be independently enabled and disabled.  Capabilities are a per-thread attribute.
+
+    分解root用户的权限为各个小单元，可以给某一个必须使用root用户执行的可执行文件添加权限，使其获得部分root用户的权限，防止部分应用权限过大。
+
+- CAP_NET_ADMIN  
+    Perform various network-related operations:
+    * interface configuration;
+    * administration of IP firewall, masquerading, and
+    accounting;
+    * modify routing tables;
+    * bind to any address for transparent proxying;
+    * set type-of-service (TOS);
+    * clear driver statistics;
+    * set promiscuous mode;
+    * enabling multicasting;
+    * use setsockopt(2) to set the following socket options:
+    SO_DEBUG, SO_MARK, SO_PRIORITY (for a priority outside
+    the range 0 to 6), SO_RCVBUFFORCE, and SO_SNDBUFFORCE.
+- CAP_NET_RAW
+    * Use RAW and PACKET sockets;
+    * bind to any address for transparent proxying.
+- ...
+
+- setcap和getcap（[sparkdev's blog]）
+    ```sh
+        sudo setcap cap_net_admin,cap_net_raw+ep /bin/ping #设置权限
+        getcap /bin/ping # 查看权限
+        sudo setcap cap_net_admin,cap_net_raw-ep /bin/ping #去除权限
+    ```
+    - “+”代表添加，“-”代表去除
+    - 对于程序文件 e：Effective，p：Permitted，i:Inheritable
+    - 对于进程 e：Effective，p：Permitted，i:Inheritable，b：Bounding，a：Ambient
