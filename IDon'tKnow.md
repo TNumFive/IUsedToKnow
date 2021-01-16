@@ -381,3 +381,11 @@ union{
     - “+”代表添加，“-”代表去除
     - 对于程序文件 e：Effective，p：Permitted，i:Inheritable
     - 对于进程 e：Effective，p：Permitted，i:Inheritable，b：Bounding，a：Ambient
+
+# html中的script标签
+如果script标签指定了src路径，则标签内包含的代码不执行
+
+# jQuery选择子查询效率
+- 50个节点，10000次查询于赋值  
+    使用"#id"查询耗时311ms，手动管理218ms  
+    使用自定义属性进行查询1066，手动管理203ms  
