@@ -393,3 +393,9 @@ union{
 # CSS选择器
 
 # setTimeout()
+
+# git config core.ignorecase false
+git默认不区分文件大小写，需要手动开启
+
+# git checkout -- CONTRIBUTING.md
+git 针对单个文件进行checkout可以将该文件恢复到修改前的样子
