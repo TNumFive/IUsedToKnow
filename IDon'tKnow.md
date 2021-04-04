@@ -414,3 +414,59 @@ git config --global https.proxy 'socks5://127.0.0.1:1080'
 
 # Ubuntu下安装常用软件及设置
 wget https://raw.githubusercontent.com/TNumFive/TNumFive/master/resources/ubuntuConfig.sh
+
+# 自动更细日志名称
+```sh
+#!/bin/bash
+
+logFileName="updateToolPage"
+
+getLogFileName(){
+	today=`date "+%b %d"`
+	line=`ls -al | grep ${logFileName}`
+	if [ "X${line}" != "X" ]
+	then
+		arr=(${line})
+		if [ "${arr[5]} ${arr[6]}" != "${today}" ]
+		then
+			str=`date -d "${arr[5]} ${arr[6]}" "+%Y%m%d"`
+			mv "${logFileName}.log" "${logFileName}_${str}.log"
+		fi
+	fi			
+}
+
+getLogFileName
+
+```
+
+# updateToolPage.sh
+```sh
+#!/bin/bash
+
+today=`date +%Y%m%d`
+logFile="/root/scripts/updateToolPage_${today}.log"
+exec 1>>${logFile}
+echo "********************************************************************************"
+time=`date "+%Y-%m-%d %H:%M:%S"`
+echo "${time}:start updating ToolPage repo"
+cd /opt/ToolPage 
+result=`git pull`
+if [ -z "$result" ]; 
+then
+ 	echo "git pull return no results, git pull failed"
+else
+	echo "${result}"
+	cd /root/nginx/ 
+	if [[ ${result} == *"resources/nginx.conf"* ]]
+	then
+		echo "nginx.conf is edited, need reload"
+		./nginx -s reload 
+	else
+		echo "nginx.conf isn't edited"
+	fi
+fi
+time=`date "+%Y-%m-%d %H:%M:%S"`
+echo "${time}:job finished" 
+echo "********************************************************************************"
+
+```
