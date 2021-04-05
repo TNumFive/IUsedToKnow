@@ -415,19 +415,20 @@ git config --global https.proxy 'socks5://127.0.0.1:1080'
 # Ubuntu下安装常用软件及设置
 wget https://raw.githubusercontent.com/TNumFive/TNumFive/master/resources/ubuntuConfig.sh
 
-# 自动更细日志名称
+# 自动更新日志名称
 ```sh
 #!/bin/bash
-
+#日志名称 ${logFileName}.log
 logFileName="updateToolPage"
 
-getLogFileName(){
-	today=`date "+%b %d"`
-	line=`ls -al | grep ${logFileName}`
+updateLogFileName(){
+    #粒度为每日一次
+	today=`date '+%Y%m%d'`
+	line=`ls -al --time-style='+%Y%m%d' | grep "${logFileName}.log"`
 	if [ "X${line}" != "X" ]
 	then
 		arr=(${line})
-		if [ "${arr[5]} ${arr[6]}" != "${today}" ]
+		if [ "${arr[5]}" != "${today}" ]
 		then
 			str=`date -d "${arr[5]} ${arr[6]}" "+%Y%m%d"`
 			mv "${logFileName}.log" "${logFileName}_${str}.log"
@@ -435,7 +436,7 @@ getLogFileName(){
 	fi			
 }
 
-getLogFileName
+updateLogFileName
 
 ```
 
