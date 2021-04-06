@@ -79,3 +79,5 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 -  so , when we bind the socket, can we use `send(sockfd, buf, len, flags)` instead of `sendto(sockfd, buf, len, flags, NULL, 0)`  ?
 - when we hadn't binded the socket, can we use `sendto(sockfd, buf, len, flags, NULL, 0)`
 - if we don't need the flags, could we just use write()?
+- what is connected state? and what is connection mode?
+- what about select()?
