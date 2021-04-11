@@ -29,7 +29,7 @@ async function hello() {
  * @param {String} message 明文
  * @param {String} key 密码
  * @param {CryptoKey} cryptoKey 
- * @returns {Promise} 返回一个Promise，,PromiseResult为加密后的生成的Array
+ * @returns {Promise} 返回一个Promise，PromiseResult为加密后的生成的Array
  */
 async function encrypt(message, key, cryptoKey) {
     let iv = Uint8Array.from(key, (e) => { return e.charCodeAt(); });
