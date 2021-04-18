@@ -1,8 +1,6 @@
 #include <iostream>
-#include <thread>
 #include <chrono>
-#include <string>
-#include <map>
+#include <functional>
 
 long fibonacci(unsigned n)
 {
@@ -12,8 +10,10 @@ long fibonacci(unsigned n)
 
 int main()
 {
+    std::function<long(unsigned)> f_fibonacci = fibonacci;
+    std::function<long(unsigned)> f=std::bind(f_fibonacci,std::placeholders::_1);
     auto start = std::chrono::steady_clock::now();
-    std::cout << "f(42) = " << fibonacci(42) << '\n';
+    std::cout << "f(42) = " << f(42) << '\n';
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
