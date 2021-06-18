@@ -409,8 +409,10 @@ git 针对单个文件进行checkout可以将该文件恢复到修改前的样�
 5. 使用win+space切换语言
 
 # git设置代理
-git config --global http.proxy 'socks5://127.0.0.1:1080'  
-git config --global https.proxy 'socks5://127.0.0.1:1080'  
+```sh
+git config --global http.proxy 'socks5://127.0.0.1:1080'
+git config --global https.proxy 'socks5://127.0.0.1:1080'
+```
 
 # Ubuntu下安装常用软件及设置
 wget https://raw.githubusercontent.com/TNumFive/TNumFive/master/resources/ubuntuConfig.sh
