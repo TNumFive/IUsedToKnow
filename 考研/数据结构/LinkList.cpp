@@ -102,12 +102,13 @@ void PrintList(List l)
 
 bool Empty(List l)
 {
-    return l->next == NULL ? true : false;
+    return (l == NULL || l->next == NULL) ? true : false;
 }
 
-void DestroyList(List l)
+void DestroyList(List *l)
 {
-    LNode *p = l->next;
+    //释放链条
+    LNode *p = (*l)->next;
     LNode *q = NULL;
     while (p != NULL)
     {
@@ -115,17 +116,19 @@ void DestroyList(List l)
         delete p;
         p = q;
     }
-    l->next = NULL;
+    //释放头节点，并置空
+    delete (*l);
+    *l = NULL;
 }
 
 int main(int argc, char const *argv[])
 {
-    ElemType temp = rand()%23;
+    ElemType temp = rand() % 23;
     List l;
     InitList(l);
     for (size_t i = 0; i < 10; i++)
     {
-        ListInsert(l, i + 1, rand()%23);
+        ListInsert(l, i + 1, rand() % 23);
     }
     PrintList(l);
     cout << "List length: " << Length(l) << endl;
@@ -141,8 +144,7 @@ int main(int argc, char const *argv[])
     }
     PrintList(l);
     cout << "destroy list" << endl;
-    DestroyList(l);
+    DestroyList(&l);
     cout << "is list empty: " << (Empty(l) ? "yes" : "no") << endl;
-    delete l;
     return 0;
 }
