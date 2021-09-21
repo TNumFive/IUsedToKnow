@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <queue>
 #include <cstring>
 using namespace std;
 
@@ -83,8 +84,8 @@ void PreOrderNoRecursion(BiTree p)
         else
         {
             p = s.top();
-            p = p->rchild;
             s.pop();
+            p = p->rchild;
         }
     }
 }
@@ -172,19 +173,40 @@ void PostOrderNoRecursion(BiTree p)
             else if (pos.top() == -1)
             {
                 //该节点为左节点，尝试访问右节点
-                s.pop();
-                pos.pop();
-                p = s.top();
                 next = 1;
             }
             else
             {
                 //该节点为右节点，下一个节点是根节点
-                s.pop();
-                pos.pop();
-                p = s.top();
                 next = 0;
             }
+            s.pop();
+            pos.pop();
+            p = s.top();
+        }
+    }
+}
+
+void LevelOrder(BiTree p)
+{
+    if (!p)
+    {
+        return;
+    }
+    queue<BiTNode *> q;
+    q.push(p);
+    while (!q.empty())
+    {
+        p = q.front();
+        q.pop();
+        Visit(p);
+        if (p->lchild)
+        {
+            q.push(p->lchild);
+        }
+        if (p->rchild)
+        {
+            q.push(p->rchild);
         }
     }
 }
@@ -214,6 +236,9 @@ int main(int argc, char const *argv[])
     cout << endl;
     cout << "PostOrderNoRecursion" << endl;
     PostOrderNoRecursion(tree);
+    cout << endl;
+    cout << "LevelOrder" << endl;
+    LevelOrder(tree);
     cout << endl;
     return 0;
 }
