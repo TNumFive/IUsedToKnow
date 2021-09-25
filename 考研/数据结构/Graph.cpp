@@ -14,7 +14,7 @@ typedef struct
     EdgeType edge[MAX_VERTEX_NUM][MAX_VERTEX_NUM];
     size_t vexNum, arcNum;
 } Graph;
-
+//下列方法针对有向图，无向图加边需手动处理
 bool Adjacent(Graph &g, VertexType x, VertexType y)
 {
     if (x < 0 || y < 0 || x >= MAX_VERTEX_NUM || y >= MAX_VERTEX_NUM)
