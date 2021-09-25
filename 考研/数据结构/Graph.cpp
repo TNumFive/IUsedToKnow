@@ -188,7 +188,10 @@ void RandomInitGraph(Graph &g, bool isDirected = false)
         // cout<<temp1<<" "<<temp2<<endl;
         AddEdge(g, temp1, temp2);
         if (!isDirected)
+        {
             AddEdge(g, temp2, temp1);
+            g.arcNum--;
+        }
     }
 }
 
@@ -340,16 +343,17 @@ void Prim(Graph &g, Graph &t)
         InsertVertex(t, nextVertex2);
         AddEdge(t, nextVertex1, nextVertex2);
         AddEdge(t, nextVertex2, nextVertex1);
+        g.arcNum--;//由于是无向图，需要手动减去一条边数
         SetEdgeValue(t, nextVertex1, nextVertex2, minDist);
         SetEdgeValue(t, nextVertex2, nextVertex1, minDist);
     }
 }
 
-VertexType UFSFind(VertexType s[], VertexType x)
+VertexType UFSFindRoot(VertexType ufs[], VertexType x)
 {
-    while (s[x] > 0)
+    while (ufs[x] >= 0)
     {
-        x = s[x];
+        x = ufs[x];
     }
     return x;
 }
@@ -358,16 +362,51 @@ VertexType UFSFind(VertexType s[], VertexType x)
 void Kruskal(Graph &g, Graph &t)
 {
     memset(&t, 0, sizeof(Graph));
-    //复制节点
+    VertexType ufs[MAX_VERTEX_NUM];
+    //复制节点//顺便初始化一下并查集
     for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
     {
+        ufs[i] = -1;
         if (g.vertex[i] != 0)
         {
             InsertVertex(t, i);
         }
     }
-    //建立一个并查集用来判断是否属于同一个连通分量
-    VertexType ufs[MAX_VERTEX_NUM];
+    EdgeType minDist = EDGE_TYPE_MAX;
+    VertexType v1, v2;
+    while (1)
+    {
+        minDist = EDGE_TYPE_MAX;
+        //取出权值最小的边
+        for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+        {
+            if (g.vertex[i] != 0)
+            {
+                //遍历该顶点的所有边，找到不构成回路且权值最小的边
+                for (EdgeType w = FirstNeighbor(g, i); w >= 0; w = NextNeighbor(g, i, w))
+                {
+                    if (GetEdgeValue(g, i, w) < minDist && (UFSFindRoot(ufs, i) != UFSFindRoot(ufs, w)))
+                    {
+                        minDist = GetEdgeValue(g, i, w);
+                        v1 = i;
+                        v2 = w;
+                    }
+                }
+            }
+        }
+        if (minDist == EDGE_TYPE_MAX)
+        {
+            break;
+        }
+        //查询完所有边后，开始加入边
+        AddEdge(t, v1, v2);
+        AddEdge(t, v2, v1);
+        t.arcNum--;//由于是无向图，需要手动减去一条边数
+        SetEdgeValue(t, v1, v2, minDist);
+        SetEdgeValue(t, v2, v1, minDist);
+        //处理并查集
+        ufs[UFSFindRoot(ufs, v2)] = UFSFindRoot(ufs, v1);
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -384,5 +423,9 @@ int main(int argc, char const *argv[])
     cout << "Prim" << endl;
     Prim(g, t);
     DisplayGraph(t);
+    Graph k;
+    cout << "Kruskal" << endl;
+    Kruskal(g, k);
+    DisplayGraph(k);
     return 0;
 }
