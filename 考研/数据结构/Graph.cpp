@@ -343,7 +343,7 @@ void Prim(Graph &g, Graph &t)
         InsertVertex(t, nextVertex2);
         AddEdge(t, nextVertex1, nextVertex2);
         AddEdge(t, nextVertex2, nextVertex1);
-        g.arcNum--;//由于是无向图，需要手动减去一条边数
+        g.arcNum--; //由于是无向图，需要手动减去一条边数
         SetEdgeValue(t, nextVertex1, nextVertex2, minDist);
         SetEdgeValue(t, nextVertex2, nextVertex1, minDist);
     }
@@ -401,7 +401,7 @@ void Kruskal(Graph &g, Graph &t)
         //查询完所有边后，开始加入边
         AddEdge(t, v1, v2);
         AddEdge(t, v2, v1);
-        t.arcNum--;//由于是无向图，需要手动减去一条边数
+        t.arcNum--; //由于是无向图，需要手动减去一条边数
         SetEdgeValue(t, v1, v2, minDist);
         SetEdgeValue(t, v2, v1, minDist);
         //处理并查集
@@ -409,11 +409,94 @@ void Kruskal(Graph &g, Graph &t)
     }
 }
 
+void Dijkstra(Graph &g, VertexType first = -1)
+{
+    EdgeType dist[MAX_VERTEX_NUM] = {0};
+    //用于记录顶点和边的集合
+    Graph d;
+    memset(&d, 0, sizeof(d));
+    VertexType v, next;
+    if (first == -1)
+    {
+        //选取第一个顶点
+        for (v = 0; v < MAX_VERTEX_NUM; v++)
+        {
+            if (g.vertex[v] != 0)
+            {
+                break;
+            }
+        }
+        first = v;
+    }
+    else
+    {
+        if (g.vertex[first] == 0)
+        {
+            return;
+        }
+        v = first;
+    }
+    InsertVertex(d, v);
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        if (i != v)
+        {
+            dist[i] = GetEdgeValue(g, v, i);
+        }
+    }
+    EdgeType minDist;
+    while (d.vexNum < g.vexNum)
+    {
+        minDist = EDGE_TYPE_MAX;
+        for (v = 0; v < MAX_VERTEX_NUM; v++)
+        {
+            //距离最短，且未被加入
+            if (dist[v] != 0 && minDist > dist[v] && d.vertex[v] == 0)
+            {
+                minDist = dist[v];
+                next = v;
+            }
+        }
+        if (minDist == EDGE_TYPE_MAX)
+        {
+            break;
+        }
+        InsertVertex(d, next);
+        //更新到各点的距离
+        for (EdgeType j = FirstNeighbor(g, next); j >= 0; j = NextNeighbor(g, next, j))
+        {
+            if (dist[j] > dist[next] + GetEdgeValue(g, next, j) || dist[j] == 0)
+            {
+                dist[j] = dist[next] + GetEdgeValue(g, next, j);
+            }
+        }
+        // break;
+    }
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        cout << i << "   ";
+    }
+    cout << endl;
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        if (dist[i] == 0)
+        {
+            cout << "inf ";
+        }
+        else
+        {
+            cout << dist[i] << "   ";
+        }
+    }
+    cout << endl;
+}
+
 int main(int argc, char const *argv[])
 {
     Graph g;
     RandomInitGraph(g);
     RandomSetWeight(g);
+    cout << "Graph g" << endl;
     DisplayGraph(g);
     cout << "BFSTraverse" << endl;
     BFSTraverse(g);
@@ -427,5 +510,20 @@ int main(int argc, char const *argv[])
     cout << "Kruskal" << endl;
     Kruskal(g, k);
     DisplayGraph(k);
+    Graph d;
+    RandomInitGraph(d, true);
+    RandomSetWeight(d, true);
+    cout << "Graph d" << endl;
+    DisplayGraph(d);
+    cout << "Dijkstra" << endl;
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        if (d.vertex[i] != 0)
+        {
+            cout << "at vertex: " << i<<endl;
+            Dijkstra(d, i);
+        }
+    }
+
     return 0;
 }
