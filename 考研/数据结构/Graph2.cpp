@@ -71,7 +71,7 @@ bool DeleteVertex(Graph &g, VertexType x)
     {
         return false;
     }
-    if (g.vertex[x] > 0)
+    if (g.vertex[x] != 0)
     {
         g.vexNum--;
         g.vertex[x] = 0;
@@ -79,15 +79,14 @@ bool DeleteVertex(Graph &g, VertexType x)
     //去边
     for (size_t i = 0; i < MAX_VERTEX_NUM; i++)
     {
-        if (g.edge[i][x] > 0)
+        if (g.edge[i][x] != EDGE_TYPE_MAX)
         {
-            g.edge[i][x] = 0;
-            g.edge[x][i] = 0;
+            g.edge[i][x] = EDGE_TYPE_MAX;
             g.arcNum--;
         }
-        if (g.edge[x][i] > 0)
+        if (g.edge[x][i] != EDGE_TYPE_MAX)
         {
-            g.edge[x][i] = 0;
+            g.edge[x][i] = EDGE_TYPE_MAX;
             g.arcNum--;
         }
     }
@@ -106,7 +105,7 @@ bool AddEdge(Graph &g, VertexType x, VertexType y)
     }
     if (g.edge[x][y] == EDGE_TYPE_MAX)
     {
-        g.edge[x][y] = 1;
+        g.edge[x][y] = 0;
         g.arcNum++;
     }
     return true;
@@ -204,6 +203,28 @@ void RandomInitGraph(Graph &g)
         temp3 = rand() % (MAX_VERTEX_NUM - 1) + 1;
         AddEdge(g, temp1, temp2);
         SetEdgeValue(g, temp1, temp2, temp3);
+    }
+}
+
+void InitDAG(Graph &g)
+{
+    memset(&g, 0, sizeof(Graph));
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        for (VertexType j = 0; j < MAX_VERTEX_NUM; j++)
+        {
+            g.edge[i][j] = EDGE_TYPE_MAX;
+        }
+    }
+    for (VertexType i = 1; i <= 5; i++)
+    {
+        InsertVertex(g, i);
+    }
+    VertexType tail[] = {1, 1, 2, 2, 3, 4, 4};
+    VertexType head[] = {2, 4, 3, 4, 5, 3, 5};
+    for (VertexType i = 0; i < 7; i++)
+    {
+        AddEdge(g, tail[i], head[i]);
     }
 }
 
@@ -388,6 +409,47 @@ void Floyd(Graph &g)
     }
 }
 
+bool TopologicalSort(Graph &g)
+{
+    Graph t;
+    memcpy(&t, &g, sizeof(Graph));
+    bool flag = true;
+    while (flag)
+    {
+        flag = false;
+        for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+        {
+            //顶点存在
+            if (t.vertex[i] != 0)
+            {
+                VertexType j;
+                for (j = 0; j < MAX_VERTEX_NUM; j++)
+                {
+                    if (GetEdgeValue(t, j, i) != EDGE_TYPE_MAX)
+                    {
+                        break;
+                    }
+                }
+                if (j == MAX_VERTEX_NUM)
+                {
+                    cout << i << " ";
+                    DeleteVertex(t, i);
+                    flag = true;
+                }
+            }
+        }
+    }
+    cout << endl;
+    if (t.vexNum == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 int main(int argc, char const *argv[])
 {
     Graph g;
@@ -441,5 +503,21 @@ int main(int argc, char const *argv[])
     }
     cout << "Floyd - min distance" << endl;
     Floyd(g);
+    {
+        Graph t;
+        InitDAG(t);
+        cout << "Graph t" << endl;
+        DisplayGraph(t);
+        cout << "TopologicalSort" << endl;
+        bool isTopological = TopologicalSort(t);
+        if (isTopological)
+        {
+            cout << "graph t is topological" << endl;
+        }
+        else
+        {
+            cout << "graph t isn't topological" << endl;
+        }
+    }
     return 0;
 }
