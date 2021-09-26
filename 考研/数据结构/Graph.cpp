@@ -481,7 +481,7 @@ void Dijkstra(Graph &g, VertexType first = -1)
     {
         if (dist[i] == 0)
         {
-            cout << "inf ";
+            cout << "-   ";
         }
         else
         {
@@ -489,6 +489,66 @@ void Dijkstra(Graph &g, VertexType first = -1)
         }
     }
     cout << endl;
+}
+
+void Floyd(Graph &g)
+{
+    EdgeType a[MAX_VERTEX_NUM][MAX_VERTEX_NUM];
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        for (VertexType j = 0; j < MAX_VERTEX_NUM; j++)
+        {
+            a[i][j] = GetEdgeValue(g, i, j);
+        }
+    }
+    for (VertexType k = 0; k < MAX_VERTEX_NUM; k++)
+    {
+        if (g.vertex[k] == 0)
+        {
+            continue;
+        }
+        for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+        {
+            if (g.vertex[i] == 0)
+            {
+                continue;
+            }
+            for (VertexType j = 0; j < MAX_VERTEX_NUM; j++)
+            {
+                if (g.vertex[j] == 0)
+                {
+                    continue;
+                }
+                EdgeType distance = GetEdgeValue(g, i, k) + GetEdgeValue(g, k, j);
+                if (GetEdgeValue(g, i, j) > distance)
+                {
+                    SetEdgeValue(g, i, j, distance);
+                }
+            }
+        }
+    }
+    cout << "   ";
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        printf("\033[4m%2d \033[0m", i);
+    }
+    cout << endl;
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        printf("%-2d|", i);
+        for (VertexType j = 0; j < MAX_VERTEX_NUM; j++)
+        {
+            if (a[i][j] != EDGE_TYPE_MAX)
+            {
+                printf("%2d ", a[i][j]);
+            }
+            else
+            {
+                cout << " - ";
+            }
+        }
+        cout << endl;
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -520,10 +580,23 @@ int main(int argc, char const *argv[])
     {
         if (d.vertex[i] != 0)
         {
-            cout << "at vertex: " << i<<endl;
+            cout << "at vertex: " << i << endl;
             Dijkstra(d, i);
         }
     }
+    cout << "Floyd" << endl;
+    //使用EDGE_TYPE_MAX代替0为无穷的代表值，方便后续运算
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        for (VertexType j = 0; j < MAX_VERTEX_NUM; j++)
+        {
 
+            if (GetEdgeValue(d, i, j) == 0)
+            {
+                SetEdgeValue(d, i, j, EDGE_TYPE_MAX);
+            }
+        }
+    }
+    Floyd(d);
     return 0;
 }
