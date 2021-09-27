@@ -161,7 +161,7 @@ EdgeType GetEdgeValue(Graph &g, VertexType x, VertexType y)
 {
     if (x < 0 || y < 0 || x >= MAX_VERTEX_NUM || y >= MAX_VERTEX_NUM)
     {
-        return -1;
+        return EDGE_TYPE_MAX;
     }
     return g.edge[x][y];
 }
@@ -433,7 +433,7 @@ void Floyd(Graph &g)
     }
 }
 
-bool TopologicalSort(Graph &g)
+bool TopologicalSort(Graph &g, list<VertexType> &l)
 {
     Graph t;
     memcpy(&t, &g, sizeof(Graph));
@@ -456,14 +456,13 @@ bool TopologicalSort(Graph &g)
                 }
                 if (j == MAX_VERTEX_NUM)
                 {
-                    cout << i << " ";
+                    l.push_back(i);
                     DeleteVertex(t, i);
                     flag = true;
                 }
             }
         }
     }
-    cout << endl;
     if (t.vexNum == 0)
     {
         return true;
@@ -476,7 +475,92 @@ bool TopologicalSort(Graph &g)
 
 void CriticalPath(Graph &g)
 {
-
+    EdgeType ve[MAX_VERTEX_NUM] = {0};
+    EdgeType vl[MAX_VERTEX_NUM] = {0};
+    EdgeType *e = new EdgeType[g.arcNum];
+    EdgeType *l = new EdgeType[g.arcNum];
+    EdgeType *d = new EdgeType[g.arcNum];
+    list<VertexType> lv;
+    EdgeType temp;
+    if (TopologicalSort(g, lv))
+    {
+        for (list<VertexType>::iterator it = lv.begin(); it != lv.end(); it++)
+        {
+            for (VertexType i = FirstNeighbor(g, *it); i >= 0; i = NextNeighbor(g, *it, i))
+            {
+                if (ve[*it] > ve[i] - GetEdgeValue(g, *it, i))
+                {
+                    ve[i] = ve[*it] + GetEdgeValue(g, *it, i);
+                }
+            }
+        }
+        for (list<VertexType>::iterator it = lv.begin(); it != lv.end(); it++)
+        {
+            vl[*it] = ve[*lv.end()];
+        }
+        for (list<VertexType>::reverse_iterator it = lv.rbegin(); it != lv.rend(); it++)
+        {
+            for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+            {
+                temp = GetEdgeValue(g, i, *it);
+                if (temp != EDGE_TYPE_MAX && vl[i] > vl[*it] - temp)
+                {
+                    vl[i] = vl[*it] - temp;
+                }
+            }
+        }
+        size_t index = 0;
+        for (list<VertexType>::iterator it = lv.begin(); it != lv.end(); it++)
+        {
+            for (VertexType i = FirstNeighbor(g, *it); i >= 0; i = NextNeighbor(g, *it, i))
+            {
+                e[index] = ve[*it];
+                l[index] = vl[i] - GetEdgeValue(g, *it, i);
+                d[index] = l[index] - e[index];
+                index++;
+            }
+        }
+        cout << "\033[4m  │\033[0m";
+        for (list<VertexType>::iterator it = lv.begin(); it != lv.end(); it++)
+        {
+            printf("\033[4m%2d \033[0m", *it);
+        }
+        printf("\nve│");
+        for (list<VertexType>::iterator it = lv.begin(); it != lv.end(); it++)
+        {
+            printf("%2d ", ve[*it]);
+        }
+        printf("\nvl│");
+        for (list<VertexType>::iterator it = lv.begin(); it != lv.end(); it++)
+        {
+            printf("%2d ", vl[*it]);
+        }
+        cout << "\n\n";
+        cout << "\033[4m  │\033[0m";
+        for (size_t i = 0; i < g.arcNum; i++)
+        {
+            printf("\033[4m%2ld \033[0m", i);
+        }
+        printf("\n e│");
+        for (size_t i = 0; i < g.arcNum; i++)
+        {
+            printf("%2d ", e[i]);
+        }
+        printf("\n l│");
+        for (size_t i = 0; i < g.arcNum; i++)
+        {
+            printf("%2d ", l[i]);
+        }
+        printf("\n d│");
+        for (size_t i = 0; i < g.arcNum; i++)
+        {
+            printf("%2d ", d[i]);
+        }
+        cout << endl;
+    }
+    delete[] e;
+    delete[] l;
+    delete[] d;
 }
 
 int main(int argc, char const *argv[])
@@ -534,14 +618,21 @@ int main(int argc, char const *argv[])
     Floyd(g);
     {
         Graph t;
+        list<VertexType> l;
         InitAOV(t);
         cout << "Graph t" << endl;
         DisplayGraph(t);
         cout << "TopologicalSort" << endl;
-        bool isTopological = TopologicalSort(t);
+        bool isTopological = TopologicalSort(t, l);
         if (isTopological)
         {
-            cout << "graph t is topological" << endl;
+            cout << "graph t is topological: ";
+            while (!l.empty())
+            {
+                cout << l.front() << " ";
+                l.pop_front();
+            }
+            cout << endl;
         }
         else
         {
