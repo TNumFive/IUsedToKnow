@@ -200,7 +200,7 @@ void DisplayGraph(Graph &g)
         }
     }
     cout << endl;
-    cout << "\033[4m   \033[0m";
+    cout << "\033[4m  │\033[0m";
     for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
     {
         printf("\033[4m%2d \033[0m", i);

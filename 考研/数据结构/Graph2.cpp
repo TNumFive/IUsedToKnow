@@ -206,7 +206,7 @@ void RandomInitGraph(Graph &g)
     }
 }
 
-void InitDAG(Graph &g)
+void InitAOV(Graph &g)
 {
     memset(&g, 0, sizeof(Graph));
     for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
@@ -228,6 +228,30 @@ void InitDAG(Graph &g)
     }
 }
 
+void InitAOE(Graph &g)
+{
+    memset(&g, 0, sizeof(Graph));
+    for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
+    {
+        for (VertexType j = 0; j < MAX_VERTEX_NUM; j++)
+        {
+            g.edge[i][j] = EDGE_TYPE_MAX;
+        }
+    }
+    for (VertexType i = 1; i <= 6; i++)
+    {
+        InsertVertex(g, i);
+    }
+    VertexType tail[] = {1, 1, 2, 2, 3, 3, 4, 5};
+    VertexType head[] = {2, 3, 4, 5, 4, 6, 6, 6};
+    VertexType weight[] = {3, 2, 2, 3, 4, 3, 2, 1};
+    for (VertexType i = 0; i < 8; i++)
+    {
+        AddEdge(g, tail[i], head[i]);
+        SetEdgeValue(g, tail[i], head[i], weight[i]);
+    }
+}
+
 void DisplayGraph(Graph &g)
 {
     cout << "vertex: ";
@@ -239,7 +263,7 @@ void DisplayGraph(Graph &g)
         }
     }
     cout << endl;
-    cout << "\033[4m   \033[0m";
+    cout << "\033[4m  │\033[0m";
     for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
     {
         printf("\033[4m%2d \033[0m", i);
@@ -385,7 +409,7 @@ void Floyd(Graph &g)
             }
         }
     }
-    cout << "\033[4m   \033[0m";
+    cout << "\033[4m  │\033[0m";
     for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
     {
         printf("\033[4m%2d \033[0m", i);
@@ -450,6 +474,11 @@ bool TopologicalSort(Graph &g)
     }
 }
 
+void CriticalPath(Graph &g)
+{
+
+}
+
 int main(int argc, char const *argv[])
 {
     Graph g;
@@ -460,12 +489,12 @@ int main(int argc, char const *argv[])
         cout << "Dijstra - min distance - path matrix" << endl;
         EdgeType dist[MAX_VERTEX_NUM];
         VertexType path[MAX_VERTEX_NUM];
-        cout << "\033[4m   \033[0m";
+        cout << "\033[4m  │\033[0m";
         for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
         {
             printf("\033[4m%2d \033[0m", i);
         }
-        cout << "\t\033[4m   \033[0m";
+        cout << "\t\033[4m  │\033[0m";
         for (VertexType i = 0; i < MAX_VERTEX_NUM; i++)
         {
             printf("\033[4m%2d \033[0m", i);
@@ -505,7 +534,7 @@ int main(int argc, char const *argv[])
     Floyd(g);
     {
         Graph t;
-        InitDAG(t);
+        InitAOV(t);
         cout << "Graph t" << endl;
         DisplayGraph(t);
         cout << "TopologicalSort" << endl;
@@ -518,6 +547,14 @@ int main(int argc, char const *argv[])
         {
             cout << "graph t isn't topological" << endl;
         }
+    }
+    {
+        Graph c;
+        InitAOE(c);
+        cout << "Graph c" << endl;
+        DisplayGraph(c);
+        cout << "CriticalPath" << endl;
+        CriticalPath(c);
     }
     return 0;
 }
