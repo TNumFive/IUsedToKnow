@@ -50,11 +50,15 @@ int main(int argc, char const *argv[])
     SSTable st;
     st.elem = new ElemType[MAX_LEN];
     st.tableLen = MAX_LEN;
+    cout << "Random init SeqTable" << endl;
     for (size_t i = 0; i < MAX_LEN; i++)
     {
         st.elem[i] = i + rand() % 10;
+        cout << st.elem[i] << " ";
     }
-
+    cout << endl;
+    cout << "Binary Search 10" << endl;
+    cout << BinarySearch(st, 10) << endl;
     delete[] st.elem;
     return 0;
 }
