@@ -57,7 +57,7 @@ void DisplayVector(vector<ElemType> &vec, size_t rowLength)
     }
 }
 
-ssize_t TimeConsumed(void (*func)(vector<ElemType> &), vector<ElemType> &vec)
+int64_t TimeConsumed(void (*func)(vector<ElemType> &), vector<ElemType> &vec)
 {
     auto start = chrono::high_resolution_clock::now();
     func(vec);
