@@ -1,5 +1,5 @@
->为了实现在不同网络环境下可以不修改配置使用ssh连接虚拟机及虚拟机配置运行在主机上的proxy  
->注意从17.10版本开始，Ubuntu放弃在/etc/network/interfaces里固定IP的配置，改为使用netplan，具体修改方式可以参考这个[链接](https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-10-cosmic-cuttlefish-linux)
+> 为了实现在不同网络环境下可以不修改配置使用ssh连接虚拟机及虚拟机配置运行在主机上的proxy  
+> 注意从17.10版本开始，Ubuntu放弃在/etc/network/interfaces里固定IP的配置，改为使用netplan，具体修改方式可以参考这个[链接](https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-10-cosmic-cuttlefish-linux)
 0. 基本思路
     1. 配置桥接/NAT用于访问外网的同时配置Host-only并固定ip
     2. 将ssh连接配置及proxy配置修改为host-only下ip
