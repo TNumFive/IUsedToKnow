@@ -269,3 +269,7 @@ echo "${time}:job finished"
 echo "********************************************************************************"
 
 ```
+# Clang_format for cpp
+```js
+    { BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, AccessModifierOffset: -2 }
+```
