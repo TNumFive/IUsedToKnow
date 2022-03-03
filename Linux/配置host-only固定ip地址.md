@@ -5,7 +5,7 @@
     2. 将ssh连接配置及proxy配置修改为host-only下ip
 1. 为虚拟机添加host-only网卡
 2. 启动虚拟机，利用dhcp服务分配ip
-3. 取消网卡的dhcp服务，防止后续ip变动
+3. 取消网卡的dhcp服务，防止后续ip变动（可不做修改）
 4. 配置虚拟机静态ip  
     - gui下使用NetworkManager修改网络设置
     - cli下修改/etc/netplan目录下配置文件
