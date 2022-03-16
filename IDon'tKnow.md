@@ -273,3 +273,12 @@ echo "**************************************************************************
 ```js
     { BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, AccessModifierOffset: -2 }
 ```
+
+# [解除WindowsUWP应用网络隔离](https://note.iiiryan.com/utilities/remove-uwp-app-network-isolation.html)
+```bat
+# 注册表HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Mappings
+# 路径下寻找想要解除的UWP应用的SID
+CheckNetIsolation.exe loopbackexempt -a -p=SID
+# 以sticky note为例
+CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-1432428195-1581642-2885308443-3834444517-2495346167
+```
