@@ -282,3 +282,18 @@ CheckNetIsolation.exe loopbackexempt -a -p=SID
 # 以sticky note为例
 CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-1432428195-1581642-2885308443-3834444517-2495346167
 ```
+
+# git config --global -e
+```sh
+[user]
+    name = TNumFive
+    email = fangxw@nuaa.edu.cn
+[http]
+        proxy = socks5://127.0.0.1:1080
+[https]
+        proxy = socks5://127.0.0.1:1080
+[core]
+    ignorecase = false
+[credential]
+    helper = store
+```
