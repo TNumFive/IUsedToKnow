@@ -295,6 +295,7 @@ CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-143242
 [core]
     ignorecase = false
 [credential]
+    # windows下可不配置，等待系统提示即可
     helper = store
 ```
 
