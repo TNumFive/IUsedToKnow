@@ -297,3 +297,14 @@ CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-143242
 [credential]
     helper = store
 ```
+
+# A start job is running for wait for network to be Configured...
+### reason
+给一个无法获得网络配置的网卡配置了dhcp，导致系统一直在等待dhcp回报
+### solution
+```sh
+cd /etc/systemd/system/network-online.target.wants/
+sudo vim systemd-networkd-wait-online.service
+# 在[Service]下添加
+TimeoutStartSec=2sec
+```
