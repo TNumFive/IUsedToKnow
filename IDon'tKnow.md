@@ -23,7 +23,7 @@ demo.html
 - -std=c++11 支持C++11标准
 - -std=gnu++11 支持C++11标准和GNU扩展特性
 
-# markdown中调整表格列宽
+# markdown中调整表格列宽的方法之一
 ```markdown
 |<div style="width:[指定宽度]">[文字内容]</div>|
 |-|
@@ -193,12 +193,6 @@ union{
 
 # setTimeout()
 
-# git config core.ignorecase false
-git默认不区分文件大小写，需要手动开启
-
-# git checkout -- CONTRIBUTING.md
-git 针对单个文件进行checkout可以将该文件恢复到修改前的样子
-
 # Ubuntu 20.04 安装中文输入法
 >（注） 部分应用中无法使用原生的中文输入法
 1. 在设置中的区域与语言，点击管理已安装的语言
@@ -206,12 +200,6 @@ git 针对单个文件进行checkout可以将该文件恢复到修改前的样�
 3. 重启系统
 4. 再次打开区域与语言，选择输入源，点击汉语，点击中文（智能拼音）
 5. 使用win+space切换语言
-
-# git设置代理
-```sh
-git config --global http.proxy 'socks5://127.0.0.1:1080'
-git config --global https.proxy 'socks5://127.0.0.1:1080'
-```
 
 # 自动更新日志名称
 ```sh
@@ -271,7 +259,7 @@ echo "**************************************************************************
 ```
 # Clang_format for cpp
 ```js
-    { BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, AccessModifierOffset: -2 }
+    { BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4 }
 ```
 
 # [解除WindowsUWP应用网络隔离](https://note.iiiryan.com/utilities/remove-uwp-app-network-isolation.html)
@@ -298,14 +286,5 @@ CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-143242
     # windows下可不配置，等待系统提示即可
     helper = store
 ```
-
-# A start job is running for wait for network to be Configured...
-### reason
-给一个无法获得网络配置的网卡配置了dhcp，导致系统一直在等待dhcp回报
-### solution
-```sh
-cd /etc/systemd/system/network-online.target.wants/
-sudo vim systemd-networkd-wait-online.service
-# 在[Service]下添加
-TimeoutStartSec=2sec
-```
+# git checkout -- CONTRIBUTING.md
+git 针对单个文件进行checkout可以将该文件恢复到修改前的样子
