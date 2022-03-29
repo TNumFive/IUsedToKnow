@@ -288,3 +288,5 @@ CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-143242
 ```
 # git checkout -- CONTRIBUTING.md
 git 针对单个文件进行checkout可以将该文件恢复到修改前的样子
+
+# [clang-format configurator](https://zed0.co.uk/clang-format-configurator/)
