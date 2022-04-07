@@ -173,9 +173,9 @@ union{
 
 - setcap和getcap（[sparkdev's blog]）
     ```sh
-        sudo setcap cap_net_admin,cap_net_raw+ep /bin/ping #设置权限
-        getcap /bin/ping # 查看权限
-        sudo setcap cap_net_admin,cap_net_raw-ep /bin/ping #去除权限
+    sudo setcap cap_net_admin,cap_net_raw+ep /bin/ping #设置权限
+    getcap /bin/ping # 查看权限
+    sudo setcap cap_net_admin,cap_net_raw-ep /bin/ping #去除权限
     ```
     - “+”代表添加，“-”代表去除
     - 对于程序文件 e：Effective，p：Permitted，i:Inheritable
@@ -192,14 +192,6 @@ union{
 # CSS选择器
 
 # setTimeout()
-
-# Ubuntu 20.04 安装中文输入法
->（注） 部分应用中无法使用原生的中文输入法
-1. 在设置中的区域与语言，点击管理已安装的语言
-2. 添加中文（简体）
-3. 重启系统
-4. 再次打开区域与语言，选择输入源，点击汉语，点击中文（智能拼音）
-5. 使用win+space切换语言
 
 # 自动更新日志名称
 ```sh
@@ -290,3 +282,11 @@ CheckNetIsolation.exe loopbackexempt -a -p=S-1-15-2-3539788797-2700867667-143242
 git 针对单个文件进行checkout可以将该文件恢复到修改前的样子
 
 # [clang-format configurator](https://zed0.co.uk/clang-format-configurator/)
+
+# git命令
+```sh
+# HEAD表示当前版本, HEAD^表示前一个版本，HEAD^^表示前前个版本，HEAD~n表示前n个版本
+git reset --hard HEAD
+# 恢复到指定commit的节点
+git reset --hard ${commit-hash}
+```

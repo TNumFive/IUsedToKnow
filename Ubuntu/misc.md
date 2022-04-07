@@ -76,3 +76,11 @@ sudo vim systemd-networkd-wait-online.service
 # 在[Service]下添加
 TimeoutStartSec=2sec
 ```
+
+# Ubuntu 20.04 安装中文输入法
+>（注） 部分应用中无法使用原生的中文输入法
+1. 在设置中的区域与语言，点击管理已安装的语言
+2. 添加中文（简体）
+3. 重启系统
+4. 再次打开区域与语言，选择输入源，点击汉语，点击中文（智能拼音）
+5. 使用win+space切换语言

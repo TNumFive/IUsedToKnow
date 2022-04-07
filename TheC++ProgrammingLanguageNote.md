@@ -104,3 +104,6 @@
 - enum, enumerator, enumeration?
 - virtual table
 - how to make class usable in ranged-for
+- type_info related
+- first-order predicate logic
+- value_type\<iterator\>
