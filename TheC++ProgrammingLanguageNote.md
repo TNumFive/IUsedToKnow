@@ -107,3 +107,5 @@
 - type_info related
 - first-order predicate logic
 - value_type\<iterator\>
+- `template<> class Vector<void*>{}` user-defined specializations to prevent code bloat
+- explicit conversion to prevent narrowing

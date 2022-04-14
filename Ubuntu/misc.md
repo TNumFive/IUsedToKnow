@@ -84,3 +84,8 @@ TimeoutStartSec=2sec
 3. 重启系统
 4. 再次打开区域与语言，选择输入源，点击汉语，点击中文（智能拼音）
 5. 使用win+space切换语言
+
+# 为nginx添加vim高亮
+>[参考链接](https://www.vim.org/scripts/script.php?script_id=1886)  
+
+如果页面移动，则直接Google nginx.vim
