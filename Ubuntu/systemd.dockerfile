@@ -28,3 +28,4 @@ VOLUME [ "/data" ]
 CMD ["/lib/systemd/systemd"]
 
 # make sure use docker run with `--privileged --volume /sys/fs/cgroup:/sys/fs/cgroup:ro`
+# test with `docker run --rm --privileged --volume /sys/fs/cgroup:/sys/fs/cgroup:ro -itd ubuntu/systemd`
