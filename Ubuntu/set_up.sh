@@ -10,7 +10,7 @@ apt update &&
 # export DEBIAN_FRONTEND=noninteractive &&
 apt install -y openssh-server vim iproute2 &&
 # backup sshd config
-cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak &&
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.`date '+%Y%m%d%H%M%S'` &&
 # set sshd config
 echo 'curl sshd config'&&
 curl -o /etc/ssh/sshd_config https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/sshd_config &&
@@ -21,7 +21,7 @@ echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCeP/TTknmYhljBVcOheq07+HCDdAXDi8/Umf
 # restart sshd
 systemctl restart sshd &&
 # backup default vimrc
-cp /etc/vim/vimrc /etc/vim/vimrc.bak &&
+cp /etc/vim/vimrc /etc/vim/vimrc.`date '+%Y%m%d%H%M%S'` &&
 # set vimrc
 echo 'curl vimrc' &&
 curl -o /etc/vim/vimrc https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/vimrc &&
