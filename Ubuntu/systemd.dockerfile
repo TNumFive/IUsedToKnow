@@ -4,21 +4,22 @@ FROM ubuntu
 ARG DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
-    && apt install -y systemd systemd-sysv curl \
+    && apt install -y systemd systemd-sysv \
     && apt clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && cd /lib/systemd/system/sysinit.target.wants/ \
-    && ls | grep -v systemd-tmpfiles-setup | xargs rm -f $1 \
-    && rm -f \
-    /etc/systemd/system/*.wants/* \
-    /lib/systemd/system/multi-user.target.wants/* \
-    /lib/systemd/system/local-fs.target.wants/* \
-    /lib/systemd/system/sockets.target.wants/*udev* \
-    /lib/systemd/system/sockets.target.wants/*initctl* \
-    /lib/systemd/system/basic.target.wants/* \
-    /lib/systemd/system/anaconda.target.wants/* \
-    /lib/systemd/system/plymouth* \
-    /lib/systemd/system/systemd-update-utmp*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+    # remain the systemd related might make image larger but make it work much normally
+    # && cd /lib/systemd/system/sysinit.target.wants/ \
+    # && ls | grep -v systemd-tmpfiles-setup | xargs rm -f $1 \
+    # && rm -f \
+    # /etc/systemd/system/*.wants/* \
+    # /lib/systemd/system/multi-user.target.wants/* \
+    # /lib/systemd/system/local-fs.target.wants/* \
+    # /lib/systemd/system/sockets.target.wants/*udev* \
+    # /lib/systemd/system/sockets.target.wants/*initctl* \
+    # /lib/systemd/system/basic.target.wants/* \
+    # /lib/systemd/system/anaconda.target.wants/* \
+    # /lib/systemd/system/plymouth* \
+    # /lib/systemd/system/systemd-update-utmp*
 
 # for systemd-use
 VOLUME [ "/sys/fs/cgroup" ]
