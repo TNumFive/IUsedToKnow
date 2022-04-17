@@ -20,8 +20,11 @@ RUN apt update \
     /lib/systemd/system/plymouth* \
     /lib/systemd/system/systemd-update-utmp*
 
+# for systemd-use
 VOLUME [ "/sys/fs/cgroup" ]
-
+# for large-amount of data if needed
+VOLUME [ "/data" ]
+# start with systemd as pid 1
 CMD ["/lib/systemd/systemd"]
 
 # make sure use docker run with `--privileged --volume /sys/fs/cgroup:/sys/fs/cgroup:ro`
