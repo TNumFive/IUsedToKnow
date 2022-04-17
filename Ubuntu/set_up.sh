@@ -1,12 +1,12 @@
 #!/bin/bash
-echo 'use bash instead of sh' &&
+echo 'please use bash instead of sh' &&
 # script for scratch
 # set time zone to Shanghai
 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&
 if [[ $* == *'replace_sources'* ]]
 then 
     # backup apt source.list
-    cp /etc/apt/sources.list /etc/apt/sources.list &&
+    cp /etc/apt/sources.list /etc/apt/sources.list.bak &&
     # replace source.list with tencent version
     curl -o /etc/apt/sources.list https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/sources.list 
 fi
