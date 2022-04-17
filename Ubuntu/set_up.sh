@@ -2,7 +2,9 @@
 echo 'please use bash instead of sh' &&
 # script for scratch
 # set time zone to Shanghai
+echo 'set time zone Asia/Shanghai' &&
 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&
+echo 'start update and install openssh-server, vim, iproute2' &&
 apt update &&
 # set apt non-interactive
 # export DEBIAN_FRONTEND=noninteractive &&
@@ -10,6 +12,7 @@ apt install -y openssh-server vim iproute2 &&
 # backup sshd config
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak &&
 # set sshd config
+echo 'curl sshd config'&&
 curl -o /etc/ssh/sshd_config https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/sshd_config &&
 # create pubkey dir
 dir=`pwd` && cd ~ && mkdir .ssh || cd .ssh &&
@@ -24,5 +27,6 @@ systemctl restart sshd &&
 # backup default vimrc
 cp /etc/vim/vimrc /etc/vim/vimrc.bak &&
 # set vimrc
+echo 'curl vimrc' &&
 curl -o /etc/vim/vimrc https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/vimrc &&
 echo 'done!'
