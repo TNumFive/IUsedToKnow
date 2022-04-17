@@ -9,9 +9,16 @@ then
     cp /etc/apt/sources.list /etc/apt/sources.list.bak &&
     # replace source.list with tencent version
     curl -o /etc/apt/sources.list https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/sources.list 
+    # unset proxy for ability to update from tencent-cloud-mirros
+    httpPorxy=${http_proxy}
+    export http_proxy= &&
+    apt update &&
+    # recover http_proxy
+    export http_proxy=${httpPorxy}
+else
+    # update and install
+    apt update   
 fi
-# update and install
-apt update &&
 # set apt non-interactive
 # export DEBIAN_FRONTEND=noninteractive &&
 apt install -y openssh-server vim iproute2 &&
