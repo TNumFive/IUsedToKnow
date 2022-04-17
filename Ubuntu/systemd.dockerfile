@@ -4,7 +4,7 @@ FROM ubuntu
 ARG DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
-    && apt install -y systemd systemd-sysv \
+    && apt install -y systemd systemd-sysv curl \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && cd /lib/systemd/system/sysinit.target.wants/ \
