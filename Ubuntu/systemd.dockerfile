@@ -4,7 +4,8 @@ FROM ubuntu
 ARG DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
-    && apt install -y systemd systemd-sysv \
+    && apt install -y systemd systemd-sysv locales\
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     # remain the systemd related might make image larger but make it work much normally
@@ -21,6 +22,8 @@ RUN apt update \
     # /lib/systemd/system/plymouth* \
     # /lib/systemd/system/systemd-update-utmp*
 
+# set locale cause the minimal-image doesn't
+ENV LANG en_US.utf8
 # for systemd-use
 VOLUME [ "/sys/fs/cgroup" ]
 # for large-amount of data if needed
