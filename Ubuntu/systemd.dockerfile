@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
     && apt install -y systemd systemd-sysv locales\
-	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     # remain the systemd related might make image larger but make it work much normally
