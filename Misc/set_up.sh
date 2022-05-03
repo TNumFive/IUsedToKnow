@@ -13,7 +13,7 @@ apt install -y openssh-server vim iproute2 &&
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.`date '+%Y%m%d%H%M%S'` &&
 # set sshd config
 echo 'curl sshd config'&&
-curl -o /etc/ssh/sshd_config https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/sshd_config &&
+curl -o /etc/ssh/sshd_config https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Misc/sshd_config &&
 # create pubkey dir
 mkdir ~/.ssh 
 # set pubkey
@@ -24,5 +24,5 @@ systemctl restart sshd &&
 cp /etc/vim/vimrc /etc/vim/vimrc.`date '+%Y%m%d%H%M%S'` &&
 # set vimrc
 echo 'curl vimrc' &&
-curl -o /etc/vim/vimrc https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Ubuntu/vimrc &&
+curl -o /etc/vim/vimrc https://raw.githubusercontent.com/TNumFive/IUsedToKnow/master/Misc/vimrc &&
 echo 'done!'
