@@ -166,17 +166,17 @@ typedef struct DisplayNode DisplayNode;
 
 void DisplayTree(BSTree tree, const char *interval)
 {
-    if(tree == NULL){
+    if (tree == NULL)
+    {
         return;
     }
     list<DisplayNode> l;
     list<char> path;
-    BSTNode * p = tree;
-    while (p!=NULL)
+    BSTNode *p = tree;
+    while (p != NULL)
     {
-        
+        p = p->lchild;
     }
-       
 }
 
 int main(int argc, char const *argv[])
