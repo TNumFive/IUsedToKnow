@@ -4,13 +4,13 @@
     clang-format，并优先使用.clang-format文件，fallback至设置的样式
     ```js
     {
-        BasedOnStyle:LLVM,
-        IndentWidth:4,
-        TabWidth:4,
-        AllowShortBlocksOnASingleLine:Always,
-        AllowShortCaseLabelsOnASingleLine:true,
-        AllowShortIfStatementsOnASingleLine:AllIfsAndElse,
-        AllowShortLoopsOnASingleLine:true
+        BasedOnStyle: LLVM,
+        IndentWidth: 4,
+        TabWidth: 4,
+        AllowShortBlocksOnASingleLine: Always,
+        AllowShortCaseLabelsOnASingleLine: true,
+        AllowShortIfStatementsOnASingleLine: AllIfsAndElse,
+        AllowShortLoopsOnASingleLine: true
     }
     ```
 - Python  
