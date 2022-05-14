@@ -9,4 +9,5 @@
 8. 根据目前一个月的使用情况来看，必备软件为工作软件（wechat、lark）、浏览器（edge、chrome）、代理软件（v2ray，ssr）、文档软件（office）及开发软件（vscode）；依次安装并登入账户、设置个人文件及下载文件路径，修改语言版本为英文；vscode可设置github账户同步
 9. 本地不做任何开发任务，一切开发依赖于vscode远程连接或使用virtualbox虚拟机来实现
 10. 解锁UWP loopback隔离，常用应用有Windows store、Sticky Note、Weather
-11. 个性化设置有待思考及添加
+11. 打开后缀名显示
+12. 个性化设置有待思考及添加
