@@ -10,7 +10,8 @@
         AllowShortBlocksOnASingleLine: Always,
         AllowShortCaseLabelsOnASingleLine: true,
         AllowShortIfStatementsOnASingleLine: AllIfsAndElse,
-        AllowShortLoopsOnASingleLine: true
+        AllowShortLoopsOnASingleLine: true,
+        ColumnLimit: 0
     }
     ```
 - Python  

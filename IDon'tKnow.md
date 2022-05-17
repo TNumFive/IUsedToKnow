@@ -249,10 +249,6 @@ echo "${time}:job finished"
 echo "********************************************************************************"
 
 ```
-# Clang_format for cpp
-```js
-    { BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4 }
-```
 
 # [解除WindowsUWP应用网络隔离](https://note.iiiryan.com/utilities/remove-uwp-app-network-isolation.html)
 ```bat
