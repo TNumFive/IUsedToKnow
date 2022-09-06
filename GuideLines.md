@@ -2,20 +2,22 @@
 # 格式化工具及配置方式
 - default  
     clang-format，并优先使用.clang-format文件，fallback至设置的样式
-    ```js
-    {
-        BasedOnStyle: LLVM,
-        IndentWidth: 4,
-        TabWidth: 4,
-        AllowShortBlocksOnASingleLine: Always,
-        AllowShortCaseLabelsOnASingleLine: true,
-        AllowShortIfStatementsOnASingleLine: AllIfsAndElse,
-        AllowShortLoopsOnASingleLine: true,
-        ColumnLimit: 0
-    }
+    ```yaml
+    # visual studio styles actually
+    BasedOnStyle: LLVM
+    UseTab: Never
+    IndentWidth: 4
+    TabWidth: 4
+    BreakBeforeBraces: Allman
+    AllowShortIfStatementsOnASingleLine: false
+    IndentCaseLabels: false
+    ColumnLimit: 0
+    AccessModifierOffset: -4
+    NamespaceIndentation: All
+    FixNamespaceComments: false
     ```
 - Python  
-    autopen8，目前尚未固定，尝试过后感觉还可以
+    black
 - Java  
     预计使用idea进行开发，使用idea默认的格式化工具及样式即可
 - Javascript  
